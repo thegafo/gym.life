@@ -1,0 +1,27 @@
+{
+  "name": "gym.life",
+  "version": "1.0.0",
+  "description": "Workout bot.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gafopi/gym.life.git"
+  },
+  "author": "Gabriel Garcia",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gafopi/gym.life/issues"
+  },
+  "homepage": "https://github.com/gafopi/gym.life#readme",
+  "dependencies": {
+    "assert": "^1.4.1",
+    "bcrypt": "^0.8.7",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "node-wit": "^4.1.0",
+    "redis": "^2.6.2"
+  }
+}

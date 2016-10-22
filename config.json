@@ -1,0 +1,10 @@
+{
+	"wit_ai": {
+		"app_id": "580ac427-eb9c-49df-ac9c-98733b1e04a6",
+		"server_access_token": "RGS6Y4KK4TUOOG7AWCKGSK7YZWH76QVF"
+	},
+	"redis": {
+		"port": 6379,
+		"url": "localhost"
+	}
+}
