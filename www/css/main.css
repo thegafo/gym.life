@@ -1,0 +1,27 @@
+
+html {
+	font-family: 'Roboto', sans-serif;
+	font-weight: 200;
+  background: url(/img/gym_backgroundx.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+
+#signup-form {
+    font-family: "Open Sans", Arial, sans-serif;
+    padding: 1em;
+    letter-spacing: 0.05em;
+		align:center;
+		text-align: center;
+}
+
+#login-form {
+    font-family: "Open Sans", Arial, sans-serif;
+    padding: 1em;
+    letter-spacing: 0.05em;
+		align:center;
+		text-align: center;
+}
