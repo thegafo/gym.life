@@ -44,10 +44,10 @@ var twilio_client = new twilio.RestClient(accountSid, authToken);
 
 app.post('/twilio_hook', function(req, res) {
   var body = req.body;
-  if (!body || !body.Body || !body.From) return res.sendStatus(400);
+  if (!body || !body.Body || !body.From) return res.send("");
 
   receiveMessage(client, twilio_client, body.From, body.Body, receiveMessage);
-  res.sendStatus(200);
+  res.send("");
 })
 
 
