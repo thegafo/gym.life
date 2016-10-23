@@ -33,7 +33,8 @@ const client = new Wit({accessToken: config.wit_ai.server_access_token});
 
 // Redis
 var db = redis.createClient(config.redis.port, config.redis.url);
-console.log('Connected to redis')
+db.auth(config.redis.auth);
+console.log('Redis connected and authorized')
 
 // Twilio
 var accountSid = config.twilio.account_sid;
