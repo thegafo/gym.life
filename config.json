@@ -8,5 +8,10 @@
 	},
 	"express": {
 		"port": 3000
+	},
+	"twilio": {
+		"account_sid": "AC41f300e99ff2ff701e306ffb12ee328d",
+		"auth_token": "1601acb55559a63e34ff82daff2fdf45",
+		"number": "+13055047474"
 	}
 }

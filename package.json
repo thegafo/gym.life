@@ -23,6 +23,8 @@
     "express": "^4.14.0",
     "node-wit": "^4.1.0",
     "prompt": "^1.0.0",
-    "redis": "^2.6.2"
+    "redis": "^2.6.2",
+    "toby-node-client": "^1.0.5",
+    "twilio": "^2.11.0"
   }
 }
