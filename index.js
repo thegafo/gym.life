@@ -54,9 +54,9 @@ var ssl_options = {
 };
 
 var app = express();
-var app = require('./lib/fb-messenger')(app, wit_client, config.facebook.app_secret, config.facebook.validation_token, config.facebook.page_access_token, config.facebook.server_url);
-
 var server = http.createServer(app);
+
+var app = require('./lib/fb-messenger')(app, wit_client, config.facebook.app_secret, config.facebook.validation_token, config.facebook.page_access_token, config.facebook.server_url);
 var secureServer = https.createServer(ssl_options, app);
 
 app.use(forceSSL)
@@ -81,8 +81,8 @@ app.get('*', function(req, res){
   res.status(404).send('404');    // any other get requests get 404 error
 });
 
-server.listen(config.express.insecure_port);
 secureServer.listen(config.express.secure_port);
+server.listen(config.express.insecure_port);
 
 
 
