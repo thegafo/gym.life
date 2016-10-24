@@ -16,7 +16,7 @@ var prompt = require("prompt");
 var request = require("request");
 var receiveMessage = require('./lib/receive.js').receiveSMSMessage;
 var getResponse = require('./lib/receive.js').getResponse;
-var forceSSL = require('express-force-ssl');
+var enforce = require('express-sslify');
 
 var fb = require('./lib/fb-messenger.js');
 
@@ -54,12 +54,12 @@ var ssl_options = {
 };
 
 var app = express();
-var server = http.createServer(app);
-
 var app = require('./lib/fb-messenger')(app, wit_client, config.facebook.app_secret, config.facebook.validation_token, config.facebook.page_access_token, config.facebook.server_url);
-var secureServer = https.createServer(ssl_options, app);
+app.use(enforce.HTTPS());
 
-app.use(forceSSL)
+
+// Use enforce.HTTPS({ trustProtoHeader: true }) in case you are behind
+// a load balancer (e.g. Heroku). See further comments below
 app.use(express.static(__dirname + '/www'));
 
 
@@ -81,10 +81,10 @@ app.get('*', function(req, res){
   res.status(404).send('404');    // any other get requests get 404 error
 });
 
-secureServer.listen(config.express.secure_port);
-server.listen(config.express.insecure_port);
 
-
+https.createServer(ssl_options, app).listen(config.express.secure_port, function(err) {
+  console.log("Application running on port " + config.express.secure_port);
+});
 
 
 //prompt.start();

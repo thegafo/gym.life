@@ -22,7 +22,7 @@
     "body-parser": "^1.15.2",
     "crypto": "0.0.3",
     "express": "^4.14.0",
-    "express-force-ssl": "^0.3.2",
+    "express-sslify": "^1.1.0",
     "fs": "0.0.1-security",
     "node-wit": "^4.1.0",
     "prompt": "^1.0.0",
