@@ -14,6 +14,8 @@ var twilio = require('twilio');
 var prompt = require("prompt");
 var request = require("request");
 var receiveMessage = require('./lib/receive.js').receiveSMSMessage;
+var getResponse = require('./lib/receive.js').getResponse;
+
 var fb = require('./lib/fb-messenger.js');
 
 // LOAD CONFIGURATION
@@ -26,6 +28,7 @@ try {
   console.log('usage: node index.js <config_file>');
   process.exit(1);
 }
+
 
 // Wit.ai
 const accessToken = config.wit_ai.server_access_token;
@@ -65,9 +68,26 @@ app.get('*', function(req, res){
   res.status(404).send('404');    // any other get requests get 404 error
 });
 
+
 https.createServer({
   key: fs.readFileSync(__dirname + '/.key.pem'),
   cert: fs.readFileSync(__dirname + '/.cert.pem')
 }, app).listen(config.express.port, function() {
   console.log('Node app is running on port', config.express.port);
 });
+
+
+//prompt.start();
+//
+//function Prompt() {
+//  prompt.get(['message'], function (err, result) {
+//    if (result.length < 2) return Prompt();
+//    getResponse(client, "asdfID", result.message, function (err,res) {
+//      if (err) return console.log(err);
+//      console.log("RESPONSE", res);
+//      Prompt();
+//    })
+//  });
+//}
+//
+//Prompt();
