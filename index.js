@@ -62,8 +62,6 @@ var secureServer = https.createServer(ssl_options, app);
 app.use(forceSSL)
 app.use(express.static(__dirname + '/www'));
 
-server.listen(config.express.insecure_port);
-secureServer.listen(config.express.secure_port);
 
 
 //secureServer.use(bodyParser.urlencoded({extended:false})); // to let us parse request body (this may mess up facebook parsing)
@@ -83,6 +81,8 @@ app.get('*', function(req, res){
   res.status(404).send('404');    // any other get requests get 404 error
 });
 
+server.listen(config.express.insecure_port);
+secureServer.listen(config.express.secure_port);
 
 
 
