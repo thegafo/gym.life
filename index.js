@@ -48,10 +48,7 @@ var twilio_client = new twilio.RestClient(accountSid, authToken);
 
 // Express
 
-var ssl_options = {
-  key: fs.readFileSync(__dirname + '/.key.pem'),
-  cert: fs.readFileSync(__dirname + '/.cert.pem')
-};
+
 
 var app = express();
 var app = require('./lib/fb-messenger')(app, wit_client, config.facebook.app_secret, config.facebook.validation_token, config.facebook.page_access_token, config.facebook.server_url);
@@ -78,6 +75,11 @@ app.get('*', function(req, res){
 });
 
 
+var ssl_options = {
+  key: fs.readFileSync(__dirname + '/.key.pem'),
+  cert: fs.readFileSync(__dirname + '/.cert.pem')
+};
+
 https.createServer(ssl_options, app).listen(config.express.secure_port, function(err) {
   console.log("Application running on port " + config.express.secure_port);
 });
@@ -87,8 +89,8 @@ https.createServer(ssl_options, app).listen(config.express.secure_port, function
 //
 //function Prompt() {
 //  prompt.get(['message'], function (err, result) {
-//    if (result.length < 2) return Prompt();
-//    getResponse(client, "asdfID", result.message, function (err,res) {
+//    if (!result.message) return Prompt();
+//    getResponse(wit_client, "asdfID", result.message, function (err,res) {
 //      if (err) return console.log(err);
 //      console.log("RESPONSE", res);
 //      Prompt();
