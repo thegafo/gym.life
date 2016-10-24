@@ -7,6 +7,7 @@ var interactive = require('node-wit').interactive;
 var redis = require('redis');
 var express = require('express');
 var fs = require('fs');
+var http = require('http');
 var https = require('https');
 var bodyParser = require('body-parser');
 var Toby = require('toby-node-client');
@@ -15,6 +16,7 @@ var prompt = require("prompt");
 var request = require("request");
 var receiveMessage = require('./lib/receive.js').receiveSMSMessage;
 var getResponse = require('./lib/receive.js').getResponse;
+var forceSSL = require('express-force-ssl');
 
 var fb = require('./lib/fb-messenger.js');
 
@@ -32,7 +34,7 @@ try {
 
 // Wit.ai
 const accessToken = config.wit_ai.server_access_token;
-const client = new Wit({accessToken: config.wit_ai.server_access_token});
+const wit_client = new Wit({accessToken: config.wit_ai.server_access_token});
 
 // Redis
 var db = redis.createClient(config.redis.port, config.redis.url);
@@ -45,45 +47,44 @@ var authToken = config.twilio.auth_token;
 var twilio_client = new twilio.RestClient(accountSid, authToken);
 
 // Express
+
+var ssl_options = {
+  key: fs.readFileSync(__dirname + '/.key.pem'),
+  cert: fs.readFileSync(__dirname + '/.cert.pem')
+};
+
 var app = express();
-var app = require('./lib/fb-messenger')(app, client, config.facebook.app_secret, config.facebook.validation_token, config.facebook.page_access_token, config.facebook.server_url);
+var app = require('./lib/fb-messenger')(app, wit_client, config.facebook.app_secret, config.facebook.validation_token, config.facebook.page_access_token, config.facebook.server_url);
+
+var server = http.createServer(app);
+var secureServer = https.createServer(ssl_options, app);
+
+app.use(forceSSL)
 app.use(express.static(__dirname + '/www'));
-//app.use(bodyParser.urlencoded({extended:false})); // to let us parse request body (this may mess up facebook parsing)
+
+server.listen(config.express.insecure_port);
+secureServer.listen(config.express.secure_port);
 
 
-// Force the use of SSL - if request made to port 80, redirect to 443
-var force_ssl = express();
-force_ssl.get('*', function(req,res) {
-  res.redirect("https://gym.life:443");
-});
-force_ssl.listen(config.express.insecure_port, function() {
-  console.log("Insecure requests will be redirected to HTTPS");
-});
+//secureServer.use(bodyParser.urlencoded({extended:false})); // to let us parse request body (this may mess up facebook parsing)
+//secureServer.post('/twilio_hook', function(req, res) {
+//  var body = req.body;
+//  if (!body || !body.Body || !body.From) return res.send("");
+//
+//  receiveSMSMessage(client, twilio_client, body.From, body.Body, receiveMessage);
+//  res.send("");
+//});
 
-
-app.post('/twilio_hook', function(req, res) {
-  var body = req.body;
-  if (!body || !body.Body || !body.From) return res.send("");
-
-  receiveSMSMessage(client, twilio_client, body.From, body.Body, receiveMessage);
-  res.send("");
-});
-
-app.get('/', function(req, res){
+secureServer.get('/', function(req, res){
   res.sendFile(__dirname + '/www/index.html');
 });
 
-app.get('*', function(req, res){
+secureServer.get('*', function(req, res){
   res.status(404).send('404');    // any other get requests get 404 error
 });
 
 
-https.createServer({
-  key: fs.readFileSync(__dirname + '/.key.pem'),
-  cert: fs.readFileSync(__dirname + '/.cert.pem')
-}, app).listen(config.express.secure_port, function() {
-  console.log('Node app is running on port', config.express.secure_port);
-});
+
 
 
 //prompt.start();
