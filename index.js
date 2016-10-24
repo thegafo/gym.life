@@ -55,11 +55,7 @@ var ssl_options = {
 
 var app = express();
 var app = require('./lib/fb-messenger')(app, wit_client, config.facebook.app_secret, config.facebook.validation_token, config.facebook.page_access_token, config.facebook.server_url);
-app.use(enforce.HTTPS());
-
-
-// Use enforce.HTTPS({ trustProtoHeader: true }) in case you are behind
-// a load balancer (e.g. Heroku). See further comments below
+app.use(enforce.HTTPS({ trustProtoHeader: true }));  // in case you are behind a load balancer (e.g. Heroku). See further comments below
 app.use(express.static(__dirname + '/www'));
 
 
