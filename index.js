@@ -155,10 +155,6 @@ app.get('*', function(req, res){
   res.status(404).send('404');    // any other get requests get 404 error
 });
 
-app.listen(config.express.port, function () {
-   console.log("Express listening on port " + config.express.port);
-});
-
 https.createServer({
   key: fs.readFileSync(__dirname + '/.key.pem'),
   cert: fs.readFileSync(__dirname + '/.cert.pem')
