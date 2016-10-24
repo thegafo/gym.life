@@ -8,7 +8,6 @@ var redis = require('redis');
 var express = require('express');
 var fs = require('fs');
 var https = require('https');
-var app = express();
 var bodyParser = require('body-parser');
 var Toby = require('toby-node-client');
 var twilio = require('twilio');
@@ -18,9 +17,11 @@ var receiveMessage = require('./lib/receive.js').receiveMessage;
 var fb = require('./lib/fb-messenger.js');
 
 
+var app = express();
+app.use(bodyParser.json({ verify: fb.verifyRequestSignature }));
+//app.use(bodyParser.urlencoded({extended:false})); // to let us parse request body
 
 app.use(express.static(__dirname + '/www'));
-app.use(bodyParser.urlencoded({extended:false})); // to let us parse request body
 
 // LOAD CONFIGURATION
 var config;
