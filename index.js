@@ -27,12 +27,6 @@ try {
   process.exit(1);
 }
 
-var app = express();
-var app = require('./lib/fb-messenger')(app, config.facebook.app_secret, config.facebook.validation_token, config.facebook.page_access_token, config.facebook.server_url);
-app.use(express.static(__dirname + '/www'));
-//app.use(bodyParser.urlencoded({extended:false})); // to let us parse request body (this may mess up facebook parsing)
-
-
 // Wit.ai
 const accessToken = config.wit_ai.server_access_token;
 const client = new Wit({accessToken: config.wit_ai.server_access_token});
@@ -46,6 +40,13 @@ console.log('Redis connected and authorized')
 var accountSid = config.twilio.account_sid;
 var authToken = config.twilio.auth_token;
 var twilio_client = new twilio.RestClient(accountSid, authToken);
+
+// Express
+var app = express();
+var app = require('./lib/fb-messenger')(app, client, config.facebook.app_secret, config.facebook.validation_token, config.facebook.page_access_token, config.facebook.server_url);
+app.use(express.static(__dirname + '/www'));
+//app.use(bodyParser.urlencoded({extended:false})); // to let us parse request body (this may mess up facebook parsing)
+
 
 
 app.post('/twilio_hook', function(req, res) {
