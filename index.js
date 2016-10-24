@@ -52,7 +52,7 @@ app.use(express.static(__dirname + '/www'));
 
 
 // Force the use of SSL - if request made to port 80, redirect to 443
-var force_ssl = express().createServer();
+var force_ssl = express();
 force_ssl.all('*', function(req,res) {
   res.redirect("https://gym.life");
 });
