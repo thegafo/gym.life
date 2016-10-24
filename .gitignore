@@ -38,3 +38,5 @@ jspm_packages
 
 # Configuration
 config.json
+.key.pem
+.cert.pem
