@@ -53,8 +53,8 @@ app.use(express.static(__dirname + '/www'));
 
 // Force the use of SSL - if request made to port 80, redirect to 443
 var force_ssl = express();
-force_ssl.all('*', function(req,res) {
-  res.redirect("https://gym.life");
+force_ssl.get('*', function(req,res) {
+  res.redirect("https://gym.life:443");
 });
 force_ssl.listen(config.express.insecure_port, function() {
   console.log("Insecure requests will be redirected to HTTPS");
