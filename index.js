@@ -13,7 +13,7 @@ var Toby = require('toby-node-client');
 var twilio = require('twilio');
 var prompt = require("prompt");
 var request = require("request");
-var receiveMessage = require('./lib/receive.js').receiveMessage;
+var receiveMessage = require('./lib/receive.js').receiveSMSMessage;
 var fb = require('./lib/fb-messenger.js');
 
 // LOAD CONFIGURATION
@@ -52,7 +52,7 @@ app.post('/twilio_hook', function(req, res) {
   var body = req.body;
   if (!body || !body.Body || !body.From) return res.send("");
 
-  receiveMessage(client, twilio_client, body.From, body.Body, receiveMessage);
+  receiveSMSMessage(client, twilio_client, body.From, body.Body, receiveMessage);
   res.send("");
 });
 
