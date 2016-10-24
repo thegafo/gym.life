@@ -162,6 +162,6 @@ app.listen(config.express.port, function () {
 https.createServer({
   key: fs.readFileSync(__dirname + '/.key.pem'),
   cert: fs.readFileSync(__dirname + '/.cert.pem')
-}, app).listen(app.get('port'), function() {
+}, app).listen(config.express.port, function() {
   console.log('Node app is running on port', config.express.port);
 });
