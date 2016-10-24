@@ -75,11 +75,11 @@ secureServer.listen(config.express.secure_port);
 //  res.send("");
 //});
 
-secureServer.get('/', function(req, res){
+app.get('/', function(req, res){
   res.sendFile(__dirname + '/www/index.html');
 });
 
-secureServer.get('*', function(req, res){
+app.get('*', function(req, res){
   res.status(404).send('404');    // any other get requests get 404 error
 });
 
