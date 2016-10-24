@@ -51,6 +51,15 @@ app.use(express.static(__dirname + '/www'));
 //app.use(bodyParser.urlencoded({extended:false})); // to let us parse request body (this may mess up facebook parsing)
 
 
+// Force the use of SSL - if request made to port 80, redirect to 443
+var force_ssl = express().createServer;
+force_ssl.all('*', function(req,res) {
+  res.redirect("https://gym.life");
+});
+force_ssl.listen(config.express.insecure_port, function() {
+  console.log("Insecure requests will be redirected to HTTPS");
+});
+
 
 app.post('/twilio_hook', function(req, res) {
   var body = req.body;
@@ -73,7 +82,7 @@ https.createServer({
   key: fs.readFileSync(__dirname + '/.key.pem'),
   cert: fs.readFileSync(__dirname + '/.cert.pem')
 }, app).listen(config.express.port, function() {
-  console.log('Node app is running on port', config.express.port);
+  console.log('Node app is running on port', config.express.secure_port);
 });
 
 
