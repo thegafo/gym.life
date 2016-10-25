@@ -14,7 +14,7 @@ var Toby = require('toby-node-client');
 var twilio = require('twilio');
 var prompt = require("prompt");
 var request = require("request");
-var receiveMessage = require('./lib/receive.js').receiveSMSMessage;
+//var receiveMessage = require('./lib/receive.js').receiveSMSMessage;
 var getResponse = require('./lib/receive.js').getResponse;
 var enforce = require('express-sslify');
 
@@ -90,9 +90,9 @@ https.createServer(ssl_options, app).listen(config.express.secure_port, function
 //function Prompt() {
 //  prompt.get(['message'], function (err, result) {
 //    if (!result.message) return Prompt();
-//    getResponse(wit_client, "asdfID", result.message, function (err,res) {
+//    getResponse(wit_client, "asdfID", result.message, function (err,res, quickReplies) {
 //      if (err) return console.log(err);
-//      console.log("RESPONSE", res);
+//      console.log("RESPONSE", res, quickReplies);
 //      Prompt();
 //    })
 //  });
